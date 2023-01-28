@@ -1,7 +1,8 @@
 package com.cost.minimizator.demo.services;
 
-public interface MinimizatorService {
-	
-	
+import com.cost.minimizator.demo.models.CalculateMinimumRequest;
 
+public interface MinimizatorService {
+
+	String calculateMinimunCost(CalculateMinimumRequest request);
 }
