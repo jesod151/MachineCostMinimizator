@@ -3,13 +3,13 @@ package com.cost.minimizator.demo.models;
 public class Machine {
 
 	private MachineType type;
-	private Integer unitCapacity;
 	private Integer costPerHour;
+	private Double costPerUnit = Double.MAX_VALUE;
+	private Integer amount = 0;
 
-	public Machine(MachineType type, Integer unitCapacity, Integer costPerHour) {
+	public Machine(MachineType type, Integer costPerHour) {
 		super();
 		this.type = type;
-		this.unitCapacity = unitCapacity;
 		this.costPerHour = costPerHour;
 	}
 
@@ -21,20 +21,28 @@ public class Machine {
 		this.type = type;
 	}
 
-	public Integer getUnitCapacity() {
-		return unitCapacity;
-	}
-
-	public void setUnitCapacity(Integer unitCapacity) {
-		this.unitCapacity = unitCapacity;
-	}
-
 	public Integer getCostPerHour() {
 		return costPerHour;
 	}
 
 	public void setCostPerHour(Integer costPerHour) {
 		this.costPerHour = costPerHour;
+	}
+
+	public Double getCostPerUnit() {
+		return costPerUnit;
+	}
+
+	public void setCostPerUnit(Double costPerUnit) {
+		this.costPerUnit = costPerUnit;
+	}
+
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
 	}
 
 }
