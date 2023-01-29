@@ -5,15 +5,8 @@ import java.util.List;
 public class RegionAllocation {
 
 	private String region;
-	private Integer total_cost;
-	private List<Machine> machines;
-
-	public RegionAllocation(String region, Integer total_cost, List<Machine> machines) {
-		super();
-		this.region = region;
-		this.total_cost = total_cost;
-		this.machines = machines;
-	}
+	private String total_cost;
+	private List<String> machines;
 
 	public String getRegion() {
 		return region;
@@ -23,19 +16,19 @@ public class RegionAllocation {
 		this.region = region;
 	}
 
-	public Integer getTotal_cost() {
+	public String getTotal_cost() {
 		return total_cost;
 	}
 
-	public void setTotal_cost(Integer total_cost) {
+	public void setTotal_cost(String total_cost) {
 		this.total_cost = total_cost;
 	}
 
-	public List<Machine> getMachines() {
+	public List<String> getMachines() {
 		return machines;
 	}
 
-	public void setMachines(List<Machine> machines) {
+	public void setMachines(List<String> machines) {
 		this.machines = machines;
 	}
 

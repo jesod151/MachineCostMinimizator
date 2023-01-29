@@ -5,7 +5,7 @@ public class Machine {
 	private MachineType type;
 	private Integer costPerHour;
 	private Double costPerUnit = Double.MAX_VALUE;
-	private Integer amount = 0;
+	private Integer selectedAmount = 0;
 
 	public Machine(MachineType type, Integer costPerHour) {
 		super();
@@ -37,12 +37,12 @@ public class Machine {
 		this.costPerUnit = costPerUnit;
 	}
 
-	public Integer getAmount() {
-		return amount;
+	public Integer getSelectedAmount() {
+		return selectedAmount;
 	}
 
-	public void setAmount(Integer amount) {
-		this.amount = amount;
+	public void setSelectedAmount(Integer amount) {
+		this.selectedAmount = amount;
 	}
 
 }

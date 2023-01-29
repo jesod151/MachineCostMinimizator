@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.cost.minimizator.demo.models.CalculateMinimumRequest;
+import com.cost.minimizator.demo.models.CalculateMinimumResponse;
 import com.cost.minimizator.demo.models.Machine;
 import com.cost.minimizator.demo.models.MachineType;
 import com.cost.minimizator.demo.models.RegionAllocation;
@@ -35,7 +36,7 @@ public class MinimizatorServiceImpl implements MinimizatorService {
 												 new Machine(MachineType.X8LARGE, 1180) }}; 
 
 	@Override
-	public List<RegionAllocation> calculateMinimunCost(CalculateMinimumRequest request) throws IllegalArgumentException {
+	public CalculateMinimumResponse calculateMinimunCost(CalculateMinimumRequest request) throws IllegalArgumentException {
 
 		if(request.getUnits() == 0 || request.getUnits() % 10 != 0) 
 			throw new IllegalArgumentException("Invalid amount of units, should be a multiple of 10 greater than 0");
@@ -48,7 +49,7 @@ public class MinimizatorServiceImpl implements MinimizatorService {
 
 		List<List<Machine>> allocatedResources = fitAsManyAsPosible(costsPerUnit, request.getUnits());
 
-		List<RegionAllocation> result = prettifyResult(allocatedResources, request.getHours());
+		CalculateMinimumResponse result = prettifyResult(allocatedResources, request.getHours());
 
 		return result;
 
@@ -100,13 +101,13 @@ public class MinimizatorServiceImpl implements MinimizatorService {
 			for (Machine machine : region) {
 
 				Integer remainingUnits = requestedUnits - currentUnits;
+				
+				if(remainingUnits == 0) break;
 
 				Integer machineSelectedAmount = remainingUnits / machine.getType().getUnitCapacity(),
 						unitSelectedAmount = machine.getType().getUnitCapacity() * machineSelectedAmount;
 
-				if (machineSelectedAmount != 0) {
-					machine.setAmount(machineSelectedAmount);
-				}
+				machine.setSelectedAmount(machineSelectedAmount);
 				currentUnits += unitSelectedAmount;
 			}
 
@@ -123,22 +124,33 @@ public class MinimizatorServiceImpl implements MinimizatorService {
 	* @return an array that contains each region total cost and the
 	* 			machines requested
 	* */
-	private List<RegionAllocation> prettifyResult(List<List<Machine>> allocatedResources, Integer requestedHours) {
+	private CalculateMinimumResponse prettifyResult(List<List<Machine>> allocatedResources, Integer requestedHours) {
 
-		List<RegionAllocation> result = new ArrayList<RegionAllocation>();
+		CalculateMinimumResponse result = new CalculateMinimumResponse();
+		List<RegionAllocation> regionsResult = new ArrayList<RegionAllocation>();
 
 		for (int region = 0; region < allocatedResources.size(); region++) {
 
 			Integer total_cost = 0;
 			List<Machine> regionMachines = allocatedResources.get(region);
+			List<String> regionMachinesNames = new ArrayList<String>();
 
 			for (Machine machine : regionMachines) {
-				total_cost += machine.getCostPerHour() * machine.getAmount() * requestedHours;
+				total_cost += machine.getCostPerHour() * machine.getSelectedAmount() * requestedHours;
+				if(machine.getSelectedAmount() != 0) {
+					regionMachinesNames.add("(" + machine.getType().getType() + ", " + machine.getSelectedAmount() + ")");
+				}
 			}
 
-			result.add(new RegionAllocation(Regions.values()[region].getName(), total_cost, regionMachines));
-
+			RegionAllocation regionData = new RegionAllocation();
+			regionData.setRegion(Regions.values()[region].getName());
+			regionData.setTotal_cost("$" + total_cost);
+			regionData.setMachines(regionMachinesNames);
+			
+			regionsResult.add(regionData);
 		}
+		
+		result.setOutput(regionsResult);
 
 		return result;
 	}
