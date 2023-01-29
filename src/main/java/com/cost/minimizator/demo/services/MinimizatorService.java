@@ -7,5 +7,6 @@ import com.cost.minimizator.demo.models.RegionAllocation;
 
 public interface MinimizatorService {
 
-	List<RegionAllocation> calculateMinimunCost(CalculateMinimumRequest request);
+	List<RegionAllocation> calculateMinimunCost(CalculateMinimumRequest request) throws IllegalArgumentException;
+
 }

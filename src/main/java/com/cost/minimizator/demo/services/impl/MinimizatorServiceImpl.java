@@ -35,8 +35,15 @@ public class MinimizatorServiceImpl implements MinimizatorService {
 												 new Machine(MachineType.X8LARGE, 1180) }}; 
 
 	@Override
-	public List<RegionAllocation> calculateMinimunCost(CalculateMinimumRequest request) {
+	public List<RegionAllocation> calculateMinimunCost(CalculateMinimumRequest request) throws IllegalArgumentException {
 
+		if(request.getUnits() == 0 || request.getUnits() % 10 != 0) 
+			throw new IllegalArgumentException("Invalid amount of units, should be a multiple of 10 greater than 0");
+		
+		
+		if(request.getHours() == 0)
+			throw new IllegalArgumentException("Invalid amount of hours, should be greater than 0");
+		
 		List<List<Machine>> costsPerUnit = getCostPerUnit(MACHINES);
 
 		List<List<Machine>> allocatedResources = fitAsManyAsPosible(costsPerUnit, request.getUnits());

@@ -19,6 +19,7 @@ public class MainController {
 
 	@PostMapping("/minimumCost")
 	public List<RegionAllocation> calculateMinimunCost(@RequestBody CalculateMinimumRequest request) {
+
 		return minimizatorService.calculateMinimunCost(request);
 	}
 
