@@ -42,10 +42,10 @@ public class MinimizatorServiceImpl implements MinimizatorService {
 	public CalculateMinimumResponse calculateMinimunCost(CalculateMinimumRequest request)
 			throws IllegalArgumentException {
 
-		if (request.getUnits() == 0 || request.getUnits() % 10 != 0)
+		if (request.getUnits() <= 0 || request.getUnits() % 10 != 0)
 			throw new IllegalArgumentException("Invalid amount of units, should be a multiple of 10 greater than 0");
 
-		if (request.getHours() == 0)
+		if (request.getHours() <= 0)
 			throw new IllegalArgumentException("Invalid amount of hours, should be greater than 0");
 
 		List<List<Machine>> costsPerUnit = getCostPerUnit(getMachines());
