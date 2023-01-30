@@ -6,7 +6,7 @@ public class RegionAllocation {
 
 	private String region;
 	private String total_cost;
-	private List<String> machines;
+	private List<Machine> machines;
 
 	public String getRegion() {
 		return region;
@@ -24,11 +24,11 @@ public class RegionAllocation {
 		this.total_cost = total_cost;
 	}
 
-	public List<String> getMachines() {
+	public List<Machine> getMachines() {
 		return machines;
 	}
 
-	public void setMachines(List<String> machines) {
+	public void setMachines(List<Machine> machines) {
 		this.machines = machines;
 	}
 

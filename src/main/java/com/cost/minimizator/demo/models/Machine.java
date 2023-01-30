@@ -1,5 +1,8 @@
 package com.cost.minimizator.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = { "costPerHour", "costPerUnit" })
 public class Machine {
 
 	private MachineType type;
@@ -41,8 +44,8 @@ public class Machine {
 		return selectedAmount;
 	}
 
-	public void setSelectedAmount(Integer amount) {
-		this.selectedAmount = amount;
+	public void setSelectedAmount(Integer selectedAmount) {
+		this.selectedAmount = selectedAmount;
 	}
 
 }

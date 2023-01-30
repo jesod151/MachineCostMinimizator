@@ -24,5 +24,14 @@ public enum MachineType {
 	public Integer getUnitCapacity() {
 		return unitCapacity;
 	}
+	
+	public static MachineType getEnumByValue(String type) {
+	    for (MachineType e : values()) {
+	        if (e.getType().equals(type)) {
+	            return e;
+	        }
+	    }
+	    return null;
+	}
 
 }
