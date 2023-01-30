@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import com.cost.minimizator.demo.models.CalculateMinimumRequest;
 import com.cost.minimizator.demo.models.CalculateMinimumResponse;
+import com.cost.minimizator.demo.models.Machine;
 import com.cost.minimizator.demo.models.Regions;
 import com.cost.minimizator.demo.services.impl.MinimizatorServiceImpl;
 
@@ -14,23 +15,45 @@ class MinimizatorServiceImplTests {
 
 	private MinimizatorServiceImpl minimizatorServiceImpl = new MinimizatorServiceImpl();
 
-	@Test
-	void DocumentSampleInput1() {
+	private CalculateMinimumRequest getRequestSampleInput1() {
 
 		CalculateMinimumRequest request = new CalculateMinimumRequest();
 		request.setHours(1);
 		request.setUnits(1150);
 
+		return request;
+	}
+
+	private CalculateMinimumResponse getSampleInput1Result() {
+		CalculateMinimumRequest request = getRequestSampleInput1();
+
 		CalculateMinimumResponse testResult = minimizatorServiceImpl.calculateMinimunCost(request);
+
+		return testResult;
+	}
+
+	@Test
+	void DocumentSampleInput1() {
+
+		CalculateMinimumResponse testResult = getSampleInput1Result();
 
 		assertEquals("$10150", testResult.getOutput().get(Regions.NEW_YORK.getRow()).getTotal_cost());
 
-		/*
-		 * for(Machine machine: testResult.getOutput())
-		 * 
-		 * 
-		 * assertEquals(request.getUnits(), testResult.getOutput().get();
-		 */
+	}
+
+	@Test
+	void sampleInput1ShouldReturn1150Units() {
+
+		CalculateMinimumRequest sampleRequest1 = getRequestSampleInput1();
+		CalculateMinimumResponse testResult = getSampleInput1Result();
+
+		Integer unitsAmount = 0;
+
+		for (Machine machine : testResult.getOutput().get(Regions.NEW_YORK.getRow()).getMachines()) {
+			unitsAmount += machine.getSelectedAmount() * machine.getType().getUnitCapacity();
+		}
+
+		assertEquals(sampleRequest1.getUnits(), unitsAmount);
 
 	}
 
